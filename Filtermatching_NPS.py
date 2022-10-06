@@ -24,7 +24,7 @@ FOV = 220 #Reconstruction diameter (mm)
 R = 400 # Viewing distancce (mm)
 D = 300 #Size of displayed image (mm)
 
-N = 12 #Number of image slices to include in analysis 
+N = 10 #Number of image slices to include in analysis 
 
 #### CHOOSE WHICH TWO SCANNERS AND RECONSTRUCTION METHODS TO COMPARE ####
 # (OBS: MAKE SURE TO WRITE EXACTLY AS IN FOLDER)
@@ -33,11 +33,13 @@ scanner1 = "Siemens AS+"
 recon1 = "all"  #Write "ALL" to include FBP and all levels of iterative reconstruction
 
 #Scanner2: "New scanner" - Scanner to find matching filters of
-scanner2 = "Siemens Flash"
+scanner2 = "GE Revolution"
 recon2 = "all" #Write "ALL" to include FBP and all levels of iterative reconstruction
+examination = 'Body' #Pick 'Body' or 'Head' depending on where to save results ---220725 JBS
+filetype = 'xlsx'  #Pick xlsx or ods depending on if you saved the NPS results in lbre office or excel ---220725 JBS
 
 #### WHERE TO SAVE RESULTS ####
-folder1 = "../Results AVG"
+folder1 = f"../Results AVG/{examination}"
 folder2 = "Matching "+scanner1+' '+recon1
 folder3 = "With "+scanner2+' '+recon2
 #date = time.strftime("%Y-%m-%d") #todays date (automatic)
@@ -129,26 +131,26 @@ def plot_two_avg(f, data1, data2, label1, label2):
 
 
 ####LIST DIR PATHS TO FILES THAT WILL BE INCLUDED IN THE ANALYSIS
-folder_scanner1 = f'../NPS tabeller 22/{scanner1}/CTDI2'
+folder_scanner1 = f'../NPS tabeller 22/{examination}/{scanner1}'
 filepathlist1 = []
 if recon1 == "ALL" or recon1 == "all":
     for subdir, dirs, files in os.walk(folder_scanner1):
         for d in dirs:
-            for filepath in glob.iglob(folder_scanner1+'/'+d+'/*.ods'): 
+            for filepath in glob.iglob(folder_scanner1+'/'+d+f'/*.{filetype}'): 
                 filepathlist1.append(filepath)
 else:
-    for filepath in glob.iglob(folder_scanner1+'/'+recon1+'/*.ods'): 
+    for filepath in glob.iglob(folder_scanner1+'/'+recon1+f'/*.{filetype}'): 
         filepathlist1.append(filepath)
 
-folder_scanner2 = f'../NPS tabeller 22/{scanner2}/CTDI2'
+folder_scanner2 = f'../NPS tabeller 22/{examination}/{scanner2}'
 filepathlist2 = []
 if recon2 == "ALL" or recon2 == "all":
     for subdir, dirs, files in os.walk(folder_scanner2):
         for d in dirs:
-            for filepath in glob.iglob(folder_scanner2+'/'+d+'/*.ods'): 
+            for filepath in glob.iglob(folder_scanner2+'/'+d+f'/*.{filetype}'): 
                 filepathlist2.append(filepath)
 else:
-    for filepath in glob.iglob(folder_scanner2+'/'+recon2+'/*.ods'): 
+    for filepath in glob.iglob(folder_scanner2+'/'+recon2+f'/*.{filetype}'): 
         filepathlist2.append(filepath)
 
 number_of_filters1 = len(filepathlist1)
