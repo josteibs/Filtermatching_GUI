@@ -30,12 +30,13 @@ filter_IR_siemens = ['J30s', 'J37s', 'J40s', 'J45s', 'J49s', 'J70h', 'Q30s', 'Q3
 filter_canon = ['FC20', 'FC21', 'FC22', 'FC23', 'FC24', 'FC25', 'FC26']
 
 #BODY EXAMINATION
-scanner_b = ['Siemens AS+', 'Siemens Flash', 'Canon Prime', 'GE revolution']
+scanner_b = ['Siemens AS+', 'Siemens Flash', 'Canon Prime', 'GE revolution', 'Philips Bigbore']
 
 #Body reconstruction
 rec_b_siemens = ['FBP', 'IR1', 'IR2']
 rec_b_canon = ['ORG', 'AIDR 3D STD', 'AIDR 3D STR', 'AIDR 3D eSTD', 'UE0', 'AIDR 3D STD-UE0', 'AIDR 3D STR-UE0', 'AIDR 3D eSTD-UE0']
 rec_b_GE = ['FBP','ASIR_50','TF High','TF High med lungefilter','TF Low med lungefilter']
+rec_b_PhilipsBB = ['FBP', 'iDose1', 'iDose2', 'iDose3']
 
 #Body filters
 filter_GE = ['BONE', 'BONEPLUS', 'CHEST', 'DETAIL', 'EDGE', 'LUNG', 'SOFT', 'STANDARD', 'ULTRA']
@@ -47,6 +48,7 @@ filter_b_canon = ['FC08','FC18','FC26','FC43','FC51','FC52']
 filter_b_canon_FC51 = ['FC51']
 filter_b_GE = ['BONE','BONEPLUS','CHEST','DETAIL','EDGE','LUNG','SOFT','STANDARD','ULTRA']
 filter_b_GE_std = ['STANDARD']
+filter_b_PhilipsBB = ['A', 'B', 'C', 'YA', 'YB']
 
 ##############################################
 #Layout
@@ -252,7 +254,13 @@ while True:
             elif values[event] == 'GE revolution':
                 rec_list = rec_b_GE
                 window['rec_type'].update(value = '', values = rec_list)
-                window['filter_type'].update(value ='', values = [])              
+                window['filter_type'].update(value ='', values = [])  
+               
+            #available reconstructions for Philips Bigbore body examinations    
+            elif values[event] == 'Philips Bigbore':
+                rec_list = rec_b_PhilipsBB
+                window['rec_type'].update(value = '', values = rec_list)
+                window['filter_type'].update(value ='', values = [])       
                 
         window['-IMAGE-'].update(disabled = True)
         window['-FILTERMATCH-'].update(disabled = True) 
@@ -318,6 +326,11 @@ while True:
                 else:
                     filter_list = filter_b_GE
                     
+                window['filter_type'].update(value = filter_list[0], values = filter_list)
+            
+            #available filters for Philips Bigbore body examinations
+            elif values['scanner']=='Philips Bigbore':
+                filter_list = filter_b_PhilipsBB
                 window['filter_type'].update(value = filter_list[0], values = filter_list)
             
         #Enables button if rec and filter is choosen.

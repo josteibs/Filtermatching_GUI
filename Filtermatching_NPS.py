@@ -29,14 +29,15 @@ N = 10 #Number of image slices to include in analysis
 #### CHOOSE WHICH TWO SCANNERS AND RECONSTRUCTION METHODS TO COMPARE ####
 # (OBS: MAKE SURE TO WRITE EXACTLY AS IN FOLDER)
 #Scanner1: "Old scanner" - Scanner to match
-scanner1 = "Siemens AS+" 
+scanner1 = "Siemens Flash" 
 recon1 = "all"  #Write "ALL" to include FBP and all levels of iterative reconstruction
 
 #Scanner2: "New scanner" - Scanner to find matching filters of
-scanner2 = "GE Revolution"
+scanner2 = "Philips Bigbore"
 recon2 = "all" #Write "ALL" to include FBP and all levels of iterative reconstruction
 examination = 'Body' #Pick 'Body' or 'Head' depending on where to save results ---220725 JBS
-filetype = 'xlsx'  #Pick xlsx or ods depending on if you saved the NPS results in lbre office or excel ---220725 JBS
+filetype1 = 'xlsx'  #Pick xlsx or ods depending on if you saved the NPS results in libre office or excel ---220725 JBS
+filetype2 = 'ods' #^Same for scanner 2
 
 #### WHERE TO SAVE RESULTS ####
 folder1 = f"../Results AVG/{examination}"
@@ -136,10 +137,10 @@ filepathlist1 = []
 if recon1 == "ALL" or recon1 == "all":
     for subdir, dirs, files in os.walk(folder_scanner1):
         for d in dirs:
-            for filepath in glob.iglob(folder_scanner1+'/'+d+f'/*.{filetype}'): 
+            for filepath in glob.iglob(folder_scanner1+'/'+d+f'/*.{filetype1}'): 
                 filepathlist1.append(filepath)
 else:
-    for filepath in glob.iglob(folder_scanner1+'/'+recon1+f'/*.{filetype}'): 
+    for filepath in glob.iglob(folder_scanner1+'/'+recon1+f'/*.{filetype1}'): 
         filepathlist1.append(filepath)
 
 folder_scanner2 = f'../NPS tabeller 22/{examination}/{scanner2}'
@@ -147,10 +148,10 @@ filepathlist2 = []
 if recon2 == "ALL" or recon2 == "all":
     for subdir, dirs, files in os.walk(folder_scanner2):
         for d in dirs:
-            for filepath in glob.iglob(folder_scanner2+'/'+d+f'/*.{filetype}'): 
+            for filepath in glob.iglob(folder_scanner2+'/'+d+f'/*.{filetype2}'): 
                 filepathlist2.append(filepath)
 else:
-    for filepath in glob.iglob(folder_scanner2+'/'+recon2+f'/*.{filetype}'): 
+    for filepath in glob.iglob(folder_scanner2+'/'+recon2+f'/*.{filetype2}'): 
         filepathlist2.append(filepath)
 
 number_of_filters1 = len(filepathlist1)
